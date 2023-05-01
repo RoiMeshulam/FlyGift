@@ -5,8 +5,7 @@ import { grey } from '@mui/material/colors';
 import SelectFlights from './SelectFlights';
 import DatePickerFlight from './DatePickerFlight';
 import Groups2Icon from '@mui/icons-material/Groups2';
-import { searchFlights } from './TequilaAPI'
-// import axios from 'axios';
+import { searchFlightsOneDirection, searchFlightsTwoDirection } from './TequilaAPI'
 import { Link } from "react-router-dom";
 
 const GridRtl = styled(Grid)({
@@ -19,33 +18,34 @@ const GreyButton = styled(Button)({
     background: grey[500]
 });
 
-const SearchFlight = ({setSearchResults}) => {
-    const [departure, setDeparture] = useState("");
-    const [arrival, setArrival] = useState("");
-    const [dateFrom, setDateFrom] = useState("");
-    const [dateTo, setDateTo] = useState("");
-    const [passengers, setPassengers] = useState(1);
-
+const SearchFlight = ({oneDirection, twoDirection, setOneDirection, setTwoDirection, setSearchResults, departure, arrival, dateFrom, dateTo, passengers, setDeparture, setArrival, setDateFrom, setDateTo, setPassengers}) => {
+   
     const handleNumTicketsChange = (event) => {
         setPassengers(parseInt(event.target.value));
-      };
+    };
+
+    const handleOneDirectionChange = (event) => {
+        setOneDirection(true);
+        setTwoDirection(false);
+    };
+
+    const handleTwoDirectionChange = (event) => {
+        setOneDirection(false);
+        setTwoDirection(true);
+    };
 
     const handleSearchButton = async (event) => {
-        console.log(departure)
-        console.log(arrival)
-        console.log(dateFrom)
-        console.log(dateTo)
-        console.log(passengers)
-        const flight = await searchFlights(departure, arrival, dateFrom, dateTo, passengers);
-        console.log("ciiiiiiiiiiiii")
-        console.log(flight)
-        const {data} = flight
-        console.log(data)
-        setSearchResults(data)   
-        
+        if(oneDirection){
+            const flight = await searchFlightsOneDirection(departure, arrival, dateFrom, dateTo, passengers);
+            const {data} = flight
+            setSearchResults(data)   
+        }
+        else{
+            const flight = await searchFlightsTwoDirection(departure, arrival, dateFrom, dateTo, passengers);
+            const {data} = flight
+            setSearchResults(data)
+        }
     }
-
-   
 
   return (
     <Box sx={{height:300 , bgcolor:'#F0E68C' ,border:1  }}>
@@ -61,7 +61,10 @@ const SearchFlight = ({setSearchResults}) => {
                             color: grey[400],
                             '&.Mui-checked': {
                             color: grey[400],
-                        },}} />
+                        },}}
+                        checked={oneDirection}
+                        onChange={handleOneDirectionChange}
+                        />
                         <Typography variant='h6' fontWeight={'700'} color={grey[100]} > כיוון אחד</Typography>
                     </Box>
                 </Grid>
@@ -71,7 +74,10 @@ const SearchFlight = ({setSearchResults}) => {
                             color: grey[400],
                             '&.Mui-checked': {
                             color: grey[400],
-                        },}} />
+                        },}}
+                        checked={twoDirection}
+                        onChange={handleTwoDirectionChange}
+                         />
                         <Typography variant='h6' fontWeight={'700'} color={grey[100]} > הלוך ושוב</Typography>
                     </Box>
                 </Grid>

@@ -48,9 +48,6 @@ const Navbar = ({setUserInfo, userInfo, isConnected, setIsConnected}) => {
         alert("יש לבצע התחברות")
     };
 
-
-
-
   return (
     <Grid container height={250}>
         <Grid item md={6}>

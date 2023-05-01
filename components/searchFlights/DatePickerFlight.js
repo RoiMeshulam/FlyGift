@@ -13,10 +13,11 @@ const CalanderIcon = styled(CalendarMonthIcon)({
 });
 
 const DatePickerFlight = ({dateFrom, setDateFrom, dateTo, setDateTo}) => {
-  const [dateFromShow, setDateFromShow] = useState("");
-  const [dateToShow, setDateToShow] = useState("");
+  const [dateFromShow, setDateFromShow] = useState(dateFrom);
+  const [dateToShow, setDateToShow] = useState(dateTo);
 
   const handleDateChangeFrom = (event) => {
+    console.log(event.target.value)
     setDateFromShow(event.target.value)
     setDateFrom(formatDate(event.target.value));
   };

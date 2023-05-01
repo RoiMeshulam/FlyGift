@@ -12,7 +12,6 @@ const NavItem = (props) => {
           setFontSize(135);
         }
 
-        
         function handleMouseLeave() {
             setFontSize(originalFontSize);
         }
@@ -39,9 +38,7 @@ const NavItem = (props) => {
           transition: "font-size 0.3s ease-in-out"}} />
         <Typography variant="body1" fontSize={'24px'} textAlign={'center'}>{text}</Typography>
     </Box>
-    
-    
-    
+   
   )
 }
 
