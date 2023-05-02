@@ -3,16 +3,16 @@ import { Grid, Box, Typography, Dialog, Button, Container} from '@mui/material';
 import { styled } from '@mui/system'
 import { grey } from '@mui/material/colors';
 import { getDatabase, ref, set, update } from "firebase/database";
+import CreditCard from './CreditCard';
 
 const BuyTicket = ({open, onClose , isConor, amount, userUid}) => {
+    const [creditCharge, setCreditCharge] = React.useState(false)
 
     const handleClose = () => {
         onClose();
     };
 
     const handlePayment = () => {
-        console.log(userUid);
-        console.log(amount)
         const db = getDatabase();
         let plaster;
         plaster = "Users/" + userUid;
@@ -24,8 +24,20 @@ const BuyTicket = ({open, onClose , isConor, amount, userUid}) => {
         
     };
 
+    const handlePaymentCreditCard = () => {
+        const db = getDatabase();
+        let plaster;
+        plaster = "Users/" + userUid;
+        update(ref(db, plaster), {
+          currCash: 0,
+        });
+        alert("הרכישה התבצעה בהצלחה, טיסה נעימה!")
+        handleClose();
+        
+    };
+
     const handleCreditCharging = () => {
-        onClose();
+        setCreditCharge(true)
     };
 
 const StyleButton = styled(Button)({
@@ -39,58 +51,73 @@ const StyleButton = styled(Button)({
 
   return (
     <Dialog onClose={handleClose} open={open} >
-         <Container component="main" maxWidth="xs" sx={{height:'33vh'}} >
-            {isConor ?
+         <Container component="main" sx={{paddingTop:'20px' , paddingBottom:'20px'}}>
+            {!creditCharge?
                 <>
-                    <Box height={'50%'} display={'flex'}>
-                        <Typography variant='h3' sx={{direction:'rtl', textAlign:'center' ,alignSelf:'center'}}>האם אתה בטוח?</Typography>
-                    </Box>
-                    <Box height={'50%'}>
-                        <Grid container height={'100%'} display={'flex'}>
-                            <Grid item xs={6} style={{display:'flex', justifyContent:'center'}}>
-                                <Box alignSelf={'center'} justifyContent={'center'}>
-                                    <StyleButton variant='contained' onClick={handlePayment} >כן</StyleButton>
-                                </Box>
-                                
+                {isConor ?
+                    <>
+                        <Box height={'50%'} display={'flex'} marginBottom={'10%'}>
+                            <Typography variant='h3' sx={{direction:'rtl', textAlign:'center' ,alignSelf:'center'}}>האם אתה בטוח?</Typography>
+                        </Box>
+                        <Box height={'50%'}>
+                            <Grid container height={'100%'} display={'flex'}>
+                                <Grid item xs={6} style={{display:'flex', justifyContent:'center'}}>
+                                    <Box alignSelf={'center'} justifyContent={'center'}>
+                                        <StyleButton variant='contained' onClick={handlePayment} >כן</StyleButton>
+                                    </Box>
+                                    
+                                </Grid>
+                                <Grid item xs={6} style={{display:'flex', justifyContent:'center'}}>
+                                    <Box alignSelf={'center'} justifyContent={'center'}>
+                                        <StyleButton variant='contained' onClick={handleClose}>לא</StyleButton>
+                                    </Box>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={6} style={{display:'flex', justifyContent:'center'}}>
-                                <Box alignSelf={'center'} justifyContent={'center'}>
-                                    <StyleButton variant='contained' onClick={handleClose}>לא</StyleButton>
-                                </Box>
+                        </Box>
+                    </>
+                    :
+                    <>
+    
+                        <Box height={'50%'}>
+                            <Box marginTop={'5%'}>
+                                <Typography variant='h3' sx={{direction:'rtl', textAlign:'center' ,alignSelf:'center'}}>עליך להוסיף {amount}$</Typography>
+                            </Box>
+                            <Box marginBottom={'10%'}>
+                                <Typography variant='h3' sx={{direction:'rtl', textAlign:'center' ,alignSelf:'center'}}>האם אתה בטוח?</Typography>
+                            </Box>
+                        </Box>
+                        <Box height={'50%'}>
+                            <Grid container height={'100%'} display={'flex'}>
+                                <Grid item xs={6} style={{display:'flex', justifyContent:'center'}}>
+                                    <Box alignSelf={'center'} justifyContent={'center'}>
+                                        <StyleButton variant='contained' onClick={handleCreditCharging}>כן</StyleButton>
+                                    </Box>
+                                    
+                                </Grid>
+                                <Grid item xs={6} style={{display:'flex', justifyContent:'center'}}>
+                                    <Box alignSelf={'center'} justifyContent={'center'}>
+                                        <StyleButton variant='contained' onClick={handleClose}>לא</StyleButton>
+                                    </Box>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </Box>
+                        </Box>
+    
+                    </>
+            
+                }
                 </>
                 :
                 <>
-
-                    <Box height={'50%'}>
-                        <Box marginTop={'5%'}>
-                            <Typography variant='h3' sx={{direction:'rtl', textAlign:'center' ,alignSelf:'center'}}>עליך להוסיף {amount}$</Typography>
-                        </Box>
-                        <Box>
-                            <Typography variant='h3' sx={{direction:'rtl', textAlign:'center' ,alignSelf:'center'}}>האם אתה בטוח?</Typography>
-                        </Box>
-                    </Box>
-                    <Box height={'50%'}>
-                        <Grid container height={'100%'} display={'flex'}>
-                            <Grid item xs={6} style={{display:'flex', justifyContent:'center'}}>
-                                <Box alignSelf={'center'} justifyContent={'center'}>
-                                    <StyleButton variant='contained' onClick={handleCreditCharging}>כן</StyleButton>
-                                </Box>
-                                
-                            </Grid>
-                            <Grid item xs={6} style={{display:'flex', justifyContent:'center'}}>
-                                <Box alignSelf={'center'} justifyContent={'center'}>
-                                    <StyleButton variant='contained' onClick={handleClose}>לא</StyleButton>
-                                </Box>
-                            </Grid>
-                        </Grid>
-                    </Box>
-
+                    <CreditCard onClick={handlePaymentCreditCard}/>
                 </>
         
-            }
+        
+        
+        
+        
+        
+        }
+            
         </Container>
     </Dialog>
     

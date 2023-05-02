@@ -39,6 +39,7 @@ function App() {
           <Route path="/Search" element={<Search userUid={userUid} oneDirection={oneDirection} twoDirection={twoDirection} setOneDirection={setOneDirection} setTwoDirection={setTwoDirection} isConnected={isConnected} userInfo={userInfo} setSearchResults={setSearchResults} searchResults={searchResults} departure={departure} arrival={arrival} dateFrom={dateFrom} dateTo={dateTo} passengers={passengers} setDeparture={setDeparture} setArrival={setArrival} setDateFrom={setDateFrom} setDateTo={setDateTo} setPassengers={setPassengers} />} />
         </Routes>
     </Router>
+    // <CreditCard/>
     
       
   );
