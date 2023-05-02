@@ -21,7 +21,7 @@ import PartialSignin from './PartialSignin'
 const theme = createTheme();
 
 const Signin = (props) => {
-    const { onClose, open, setUserInfo, setIsConnected } = props;
+    const { onClose, open, setUserInfo, setIsConnected , setUserUid } = props;
     const [newUserResetPassword, setNewUserResetPassword] = useState(true);
     const handleNewUserResetPassword = (event) => {
         setNewUserResetPassword(!newUserResetPassword);
@@ -44,8 +44,9 @@ const Signin = (props) => {
                     const dbRef = ref(getDatabase());
                     get(child(dbRef, `Users/${user.uid}`)).then((snapshot) => {
                         if (snapshot.exists()) {
-                            console.log(snapshot.val());
+                            console.log({val: snapshot.val(),id: user.uid});
                             setUserInfo(snapshot.val());
+                            setUserUid(user.uid)
                             setIsConnected(true)
                             if (snapshot.val().existingUser == 0) {
                                 handleNewUserResetPassword();

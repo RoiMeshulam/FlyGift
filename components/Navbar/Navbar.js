@@ -24,7 +24,7 @@ const StyledLink = styled(Link)(({ theme }) => ({
 
 
 
-const Navbar = ({setUserInfo, userInfo, isConnected, setIsConnected}) => {
+const Navbar = ({setUserInfo, userInfo, isConnected, setIsConnected, setUserUid}) => {
     const [openSignIn, setOpenSignIn] = React.useState(false);
     const [openSignUp, setOpenSignUp] = React.useState(false);
 
@@ -48,6 +48,9 @@ const Navbar = ({setUserInfo, userInfo, isConnected, setIsConnected}) => {
         alert("יש לבצע התחברות")
     };
 
+
+
+
   return (
     <Grid container height={250}>
         <Grid item md={6}>
@@ -70,6 +73,7 @@ const Navbar = ({setUserInfo, userInfo, isConnected, setIsConnected}) => {
                                     onClose={handleSignInClose}
                                     setUserInfo={setUserInfo}
                                     setIsConnected={setIsConnected}
+                                    setUserUid={setUserUid}
                                 />
                                
                                </>
