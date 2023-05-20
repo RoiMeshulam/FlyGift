@@ -1,12 +1,15 @@
 import React from 'react'
+import {useContext } from "react";
 import pic from './account.png'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faShekelSign } from '@fortawesome/free-solid-svg-icons';
 import { Grid, Typography, Box } from '@mui/material';
+import { UserContext } from '../../App';
 
 
 
 const MyProfile = ({userInfo}) => {
+    
     console.log(userInfo)
   return (
     <Box>

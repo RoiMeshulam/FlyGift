@@ -1,6 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
-import {Box} from '@mui/material'
+import React, { useState, createContext, useContext  } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home';
@@ -8,12 +7,11 @@ import MyAccount from './pages/MyAccount';
 import Company from './pages/Company';
 import GroupPresent from './pages/GroupPresent';
 import Search from './pages/Search';
-import CreditCard from './components/Payment/CreditCard'
-
 
 
 
 function App() {
+
   const [userInfo, setUserInfo] = React.useState();
   const [userUid, setUserUid] = React.useState();
   const [isConnected,setIsConnected] = React.useState(false)
@@ -29,6 +27,7 @@ function App() {
 
 
   return (
+    
     <Router>
         <Navbar setUserUid={setUserUid} userInfo={userInfo} setUserInfo={setUserInfo} isConnected={isConnected} setIsConnected={setIsConnected}/>
         <Routes>
@@ -39,7 +38,7 @@ function App() {
           <Route path="/Search" element={<Search userUid={userUid} oneDirection={oneDirection} twoDirection={twoDirection} setOneDirection={setOneDirection} setTwoDirection={setTwoDirection} isConnected={isConnected} userInfo={userInfo} setSearchResults={setSearchResults} searchResults={searchResults} departure={departure} arrival={arrival} dateFrom={dateFrom} dateTo={dateTo} passengers={passengers} setDeparture={setDeparture} setArrival={setArrival} setDateFrom={setDateFrom} setDateTo={setDateTo} setPassengers={setPassengers} />} />
         </Routes>
     </Router>
-    // <CreditCard/>
+   
     
       
   );
