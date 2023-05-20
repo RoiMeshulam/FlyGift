@@ -2,12 +2,12 @@ import React from 'react'
 import MyProfile from '../components/Profile/MyProfile'
 import SearchFlight from '../components/searchFlights/SearchFlight'
 
-const MyAccount = ({userInfo}) => {
+const MyAccount = () => {
   
 
   return (
     <>
-        <MyProfile userInfo={userInfo} />
+        <MyProfile/>
         <SearchFlight/>
     </>
   )

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -14,6 +14,7 @@ import { auth } from '../../utils/firebase';
 import { getDatabase, ref, get, child } from "firebase/database";
 import { Dialog } from '@mui/material';
 import PartialSignin from './PartialSignin'
+import { UserContext } from '../../UserContext';
 
 
 
@@ -21,8 +22,10 @@ import PartialSignin from './PartialSignin'
 const theme = createTheme();
 
 const Signin = (props) => {
-    const { onClose, open, setUserInfo, setIsConnected , setUserUid } = props;
+    const { onClose, open } = props;
     const [newUserResetPassword, setNewUserResetPassword] = useState(true);
+    const {setUserInfo, setUserUid, setIsConnected, setCurrCash} = useContext(UserContext);
+
     const handleNewUserResetPassword = (event) => {
         setNewUserResetPassword(!newUserResetPassword);
     };
@@ -44,10 +47,11 @@ const Signin = (props) => {
                     const dbRef = ref(getDatabase());
                     get(child(dbRef, `Users/${user.uid}`)).then((snapshot) => {
                         if (snapshot.exists()) {
-                            console.log({val: snapshot.val(),id: user.uid});
+                            const {currCash} = snapshot.val();
                             setUserInfo(snapshot.val());
-                            setUserUid(user.uid)
-                            setIsConnected(true)
+                            setUserUid(user.uid);
+                            setCurrCash(currCash);
+                            setIsConnected(true);
                             if (snapshot.val().existingUser == 0) {
                                 handleNewUserResetPassword();
                             } else {

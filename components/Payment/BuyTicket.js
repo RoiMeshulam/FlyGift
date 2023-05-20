@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Grid, Box, Typography, Dialog, Button, Container} from '@mui/material';
 import { styled } from '@mui/system'
 import { grey } from '@mui/material/colors';
 import { getDatabase, ref, set, update } from "firebase/database";
 import CreditCard from './CreditCard';
+import { UserContext } from '../../UserContext';
 
-const BuyTicket = ({open, onClose , isConor, amount, userUid}) => {
+const BuyTicket = ({open, onClose , isConor, amount}) => {
     const [creditCharge, setCreditCharge] = React.useState(false)
+    const {userUid , setCurrCash} = useContext(UserContext);
 
     const handleClose = () => {
         onClose();
@@ -19,6 +21,7 @@ const BuyTicket = ({open, onClose , isConor, amount, userUid}) => {
         update(ref(db, plaster), {
           currCash: amount,
         });
+        setCurrCash(amount);
         alert("הרכישה התבצעה בהצלחה, טיסה נעימה!")
         handleClose();
         
@@ -31,6 +34,7 @@ const BuyTicket = ({open, onClose , isConor, amount, userUid}) => {
         update(ref(db, plaster), {
           currCash: 0,
         });
+        setCurrCash(0);
         alert("הרכישה התבצעה בהצלחה, טיסה נעימה!")
         handleClose();
         

@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Grid, Box, Typography , Button} from "@mui/material";
 import FlightDetails from "./FlightDetails";
 import BuyTicket from "../Payment/BuyTicket";
+import { UserContext } from '../../UserContext';
 
-const FlightTicket = ({flight , oneDirection , isConnected, userInfo, userUid}) => {
+const FlightTicket = ({flight}) => {
     const [open, setOpen] = React.useState(false);
     const [isConor, setIsConor] = React.useState(false);
     const [amount,setAmount] = React.useState(0);
     const {price, route} = flight;
+    const {oneDirection,isConnected,userInfo} = useContext(UserContext);
 
     const handleSelectClick = (event) => {
         if(!isConnected){
@@ -63,8 +65,6 @@ const FlightTicket = ({flight , oneDirection , isConnected, userInfo, userUid}) 
                     onClose={handleClose}
                     isConor={isConor}
                     amount={amount}
-                    userUid={userUid}
-                
                 />
             </Box>
         </Grid>

@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Box, Typography} from "@mui/material";
 import FlightTicket from './FlightTicket';
+import { UserContext } from '../../UserContext';
 
-const RelevantFlights = ({searchResults , oneDirection, isConnected, userInfo, userUid}) => {
+const RelevantFlights = () => {
+    const {searchResults} = useContext(UserContext);
     const {length} = searchResults
     let index = -1;
 
@@ -19,7 +21,7 @@ const RelevantFlights = ({searchResults , oneDirection, isConnected, userInfo, u
                     index=index+1,
                     console.log(flight),
                     <Box sx={{height:'200px', display:'flex',alignItems:'center',padding:'1%'}}>
-                        <FlightTicket userUid={userUid} key={index} flight= {flight} oneDirection={oneDirection} isConnected={isConnected} userInfo={userInfo}/>
+                        <FlightTicket key={index} flight= {flight}/>
                     </Box>    
                 ))
             }

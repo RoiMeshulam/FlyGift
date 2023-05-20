@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   Box,
@@ -11,6 +11,7 @@ import { grey } from "@mui/material/colors";
 import SyncAltIcon from "@mui/icons-material/SyncAlt";
 import Papa from "papaparse";
 import allAirports from "./allAirports.csv";
+import { UserContext } from "../../UserContext";
 
 // npm install papaparse --save
 const TextFieldCenter = styled(TextField)({
@@ -36,7 +37,8 @@ const AltIcon = styled(SyncAltIcon)({
   color: grey[500],
 });
 
-const SelectFlights = ({ departure, setDeparture, arrival, setArrival }) => {
+const SelectFlights = () => {
+  const { departure, setDeparture, arrival, setArrival } = useContext(UserContext);
   const [airports, setAirports] = useState([]);
  
   useEffect(() => {

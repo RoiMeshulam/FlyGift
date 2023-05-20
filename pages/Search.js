@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import SearchFlight from '../components/searchFlights/SearchFlight'
 import RelevantFlights from '../components/searchFlights/RelevantFlights'
 import MyProfile from '../components/Profile/MyProfile'
+import { UserContext } from '../UserContext'
 
-const Search = ({userUid, oneDirection, twoDirection, setOneDirection, setTwoDirection, isConnected ,userInfo, setSearchResults, searchResults, departure, arrival, dateFrom, dateTo, passengers, setDeparture, setArrival, setDateFrom, setDateTo, setPassengers}) => {
+const Search = () => {
+  const {dateFrom,dateTo, isConnected} = useContext(UserContext);
     
     function formatDate(dateStr) {
       // Split the input date string into day, month, and year components
@@ -19,12 +21,12 @@ const Search = ({userUid, oneDirection, twoDirection, setOneDirection, setTwoDir
     return (
     <>  
       {isConnected ? 
-        <MyProfile userInfo={userInfo}/>
+        <MyProfile/>
         :
         <></>
       }
-        <SearchFlight oneDirection={oneDirection} twoDirection={twoDirection} setOneDirection={setOneDirection} setTwoDirection={setTwoDirection} setSearchResults={setSearchResults} departure={departure} arrival={arrival} dateFrom={from} dateTo={to} passengers={passengers} setDeparture={setDeparture} setArrival={setArrival} setDateFrom={setDateFrom} setDateTo={setDateTo} setPassengers={setPassengers}/>
-        <RelevantFlights userUid={userUid} searchResults={searchResults} oneDirection={oneDirection} twoDirection={twoDirection} isConnected={isConnected} userInfo={userInfo}/>
+        <SearchFlight />
+        <RelevantFlights />
     </>
   )
 }

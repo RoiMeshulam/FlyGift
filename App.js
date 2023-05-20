@@ -7,8 +7,7 @@ import MyAccount from './pages/MyAccount';
 import Company from './pages/Company';
 import GroupPresent from './pages/GroupPresent';
 import Search from './pages/Search';
-
-
+import { UserContext } from './UserContext';
 
 function App() {
 
@@ -22,21 +21,23 @@ function App() {
   const [dateTo, setDateTo] = useState("");
   const [passengers, setPassengers] = useState(1);
   const [oneDirection, setOneDirection] = React.useState(false);
-  const [twoDirection, setTwoDirection] = React.useState(true);
+  const [currCash,setCurrCash] = useState(0);
 
 
 
   return (
     
     <Router>
-        <Navbar setUserUid={setUserUid} userInfo={userInfo} setUserInfo={setUserInfo} isConnected={isConnected} setIsConnected={setIsConnected}/>
-        <Routes>
-          <Route path="/" element={<Home oneDirection={oneDirection} twoDirection={twoDirection} setOneDirection={setOneDirection} setTwoDirection={setTwoDirection} setSearchResults={setSearchResults} departure={departure} arrival={arrival} dateFrom={dateFrom} dateTo={dateTo} passengers={passengers} setDeparture={setDeparture} setArrival={setArrival} setDateFrom={setDateFrom} setDateTo={setDateTo} setPassengers={setPassengers} />} />
-          <Route path="/MyAccount" element={<MyAccount userInfo={userInfo} />} />
-          <Route path="/companyLogin" element={<Company />} />
-          <Route path="/GroupPresent" element={<GroupPresent />} />
-          <Route path="/Search" element={<Search userUid={userUid} oneDirection={oneDirection} twoDirection={twoDirection} setOneDirection={setOneDirection} setTwoDirection={setTwoDirection} isConnected={isConnected} userInfo={userInfo} setSearchResults={setSearchResults} searchResults={searchResults} departure={departure} arrival={arrival} dateFrom={dateFrom} dateTo={dateTo} passengers={passengers} setDeparture={setDeparture} setArrival={setArrival} setDateFrom={setDateFrom} setDateTo={setDateTo} setPassengers={setPassengers} />} />
-        </Routes>
+        <UserContext.Provider value={{userInfo, setUserInfo, userUid,setUserUid,isConnected,setIsConnected,searchResults,setSearchResults,departure,setDeparture,arrival,setArrival,dateFrom,setDateFrom,dateTo,setDateTo,passengers,setPassengers,oneDirection,setOneDirection,currCash,setCurrCash}}>
+          <Navbar/>
+          <Routes>
+            <Route path="/" element={<Home/>} />
+            <Route path="/MyAccount" element={<MyAccount/>} />
+            <Route path="/companyLogin" element={<Company />} />
+            <Route path="/GroupPresent" element={<GroupPresent/>} />
+            <Route path="/Search" element={<Search/>} />
+          </Routes>
+        </UserContext.Provider>
     </Router>
    
     

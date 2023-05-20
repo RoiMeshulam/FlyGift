@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import { React, useContext, useState } from 'react'
 import { Grid, Box, Typography, Checkbox , Button} from '@mui/material';
 import { styled } from '@mui/system'
 import { grey } from '@mui/material/colors';
@@ -7,6 +7,7 @@ import DatePickerFlight from './DatePickerFlight';
 import Groups2Icon from '@mui/icons-material/Groups2';
 import { searchFlightsOneDirection, searchFlightsTwoDirection } from './TequilaAPI'
 import { Link } from "react-router-dom";
+import { UserContext } from '../../UserContext';
 
 const GridRtl = styled(Grid)({
     direction:'rtl'
@@ -18,20 +19,19 @@ const GreyButton = styled(Button)({
     background: grey[500]
 });
 
-const SearchFlight = ({oneDirection, twoDirection, setOneDirection, setTwoDirection, setSearchResults, departure, arrival, dateFrom, dateTo, passengers, setDeparture, setArrival, setDateFrom, setDateTo, setPassengers}) => {
-   
+const SearchFlight = () => {
+    const {oneDirection, setOneDirection , setSearchResults, departure, arrival, dateFrom, dateTo, passengers, setPassengers} = useContext(UserContext);
     const handleNumTicketsChange = (event) => {
         setPassengers(parseInt(event.target.value));
     };
 
     const handleOneDirectionChange = (event) => {
         setOneDirection(true);
-        setTwoDirection(false);
+       
     };
 
     const handleTwoDirectionChange = (event) => {
         setOneDirection(false);
-        setTwoDirection(true);
     };
 
     const handleSearchButton = async (event) => {
@@ -75,7 +75,7 @@ const SearchFlight = ({oneDirection, twoDirection, setOneDirection, setTwoDirect
                             '&.Mui-checked': {
                             color: grey[400],
                         },}}
-                        checked={twoDirection}
+                        checked={!oneDirection}
                         onChange={handleTwoDirectionChange}
                          />
                         <Typography variant='h6' fontWeight={'700'} color={grey[100]} > הלוך ושוב</Typography>
@@ -86,10 +86,10 @@ const SearchFlight = ({oneDirection, twoDirection, setOneDirection, setTwoDirect
             <Grid item>
                 <GridRtl container height={100} >
                     <Grid item lg={6}>
-                        <SelectFlights setDeparture={setDeparture} setArrival={setArrival} departure={departure} arrival={arrival}/>
+                        <SelectFlights/>
                     </Grid>
                     <Grid item lg={4}>
-                        <DatePickerFlight setDateTo={setDateTo} dateTo={dateTo} setDateFrom={setDateFrom} dateFrom={dateFrom}/>
+                        <DatePickerFlight/>
                     </Grid>
                     <Grid item lg={2} >
                         <GridRtl container height={100} >

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Grid, Box, Typography} from '@mui/material';
 import { styled } from '@mui/system'
 import logo from '../../img/FlyGiftLogo.png'
@@ -11,6 +11,7 @@ import NavItem from './NavItem';
 import { Link } from "react-router-dom";
 import Signin from '../SignInUp/Signin';
 import Signup from '../SignInUp/Signup';
+import { UserContext } from '../../UserContext';
 
 
 const StyledLink = styled(Link)(({ theme }) => ({
@@ -24,9 +25,10 @@ const StyledLink = styled(Link)(({ theme }) => ({
 
 
 
-const Navbar = ({setUserInfo, userInfo, isConnected, setIsConnected, setUserUid}) => {
+const Navbar = () => {
     const [openSignIn, setOpenSignIn] = React.useState(false);
     const [openSignUp, setOpenSignUp] = React.useState(false);
+    const {userInfo,isConnected} = useContext(UserContext);
 
     const handleClickSignInOpen = () => {
         setOpenSignIn(true);
@@ -71,9 +73,6 @@ const Navbar = ({setUserInfo, userInfo, isConnected, setIsConnected, setUserUid}
                                 <Signin
                                     open={openSignIn}
                                     onClose={handleSignInClose}
-                                    setUserInfo={setUserInfo}
-                                    setIsConnected={setIsConnected}
-                                    setUserUid={setUserUid}
                                 />
                                
                                </>

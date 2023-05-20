@@ -1,8 +1,9 @@
 import { Grid , Box , Typography } from '@mui/material';
-import { React, useState } from 'react'
+import { React, useContext, useState } from 'react'
 import { styled } from '@mui/system'
 import { grey } from '@mui/material/colors';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { UserContext } from '../../UserContext';
 
 const GridRtl = styled(Grid)({
   direction:'rtl'
@@ -12,7 +13,9 @@ const CalanderIcon = styled(CalendarMonthIcon)({
   color: grey[500]
 });
 
-const DatePickerFlight = ({dateFrom, setDateFrom, dateTo, setDateTo}) => {
+const DatePickerFlight = () => {
+  const {dateFrom,dateTo,setDateFrom,setDateTo} = useContext(UserContext);
+
   const [dateFromShow, setDateFromShow] = useState(dateFrom);
   const [dateToShow, setDateToShow] = useState(dateTo);
 
