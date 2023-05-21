@@ -52,7 +52,7 @@ const Signin = (props) => {
                             setUserUid(user.uid);
                             setCurrCash(currCash);
                             setIsConnected(true);
-                            if (snapshot.val().existingUser == 0) {
+                            if (snapshot.val().existingUser === 0) {
                                 handleNewUserResetPassword();
                             } else {
                                 handleClose();
@@ -66,6 +66,8 @@ const Signin = (props) => {
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
+                    console.log(errorCode)
+                    console.log(errorMessage)
                     console.log('ERROR: sign in')
                 });
         }

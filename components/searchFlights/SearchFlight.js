@@ -1,4 +1,4 @@
-import { React, useContext, useState } from 'react'
+import { React, useContext} from 'react'
 import { Grid, Box, Typography, Checkbox , Button} from '@mui/material';
 import { styled } from '@mui/system'
 import { grey } from '@mui/material/colors';
@@ -26,15 +26,15 @@ const SearchFlight = () => {
     };
 
     const handleOneDirectionChange = (event) => {
-        setOneDirection(true);
+        setOneDirection(!oneDirection);
        
     };
 
-    const handleTwoDirectionChange = (event) => {
-        setOneDirection(false);
-    };
+  
 
     const handleSearchButton = async (event) => {
+        console.log(dateFrom);
+        console.log(dateTo);
         if(oneDirection){
             const flight = await searchFlightsOneDirection(departure, arrival, dateFrom, dateTo, passengers);
             const {data} = flight
@@ -76,7 +76,7 @@ const SearchFlight = () => {
                             color: grey[400],
                         },}}
                         checked={!oneDirection}
-                        onChange={handleTwoDirectionChange}
+                        onChange={handleOneDirectionChange}
                          />
                         <Typography variant='h6' fontWeight={'700'} color={grey[100]} > הלוך ושוב</Typography>
                     </Box>

@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState, createContext, useContext  } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home';
@@ -22,13 +22,15 @@ function App() {
   const [passengers, setPassengers] = useState(1);
   const [oneDirection, setOneDirection] = React.useState(false);
   const [currCash,setCurrCash] = useState(0);
+  const [dateFromShow, setDateFromShow] = useState("");
+  const [dateToShow, setDateToShow] = useState("");
 
 
 
   return (
     
     <Router>
-        <UserContext.Provider value={{userInfo, setUserInfo, userUid,setUserUid,isConnected,setIsConnected,searchResults,setSearchResults,departure,setDeparture,arrival,setArrival,dateFrom,setDateFrom,dateTo,setDateTo,passengers,setPassengers,oneDirection,setOneDirection,currCash,setCurrCash}}>
+        <UserContext.Provider value={{userInfo, setUserInfo, userUid,setUserUid,isConnected,setIsConnected,searchResults,setSearchResults,departure,setDeparture,arrival,setArrival,dateFrom,setDateFrom,dateTo,setDateTo,passengers,setPassengers,oneDirection,setOneDirection,currCash,setCurrCash,dateFromShow, setDateFromShow,dateToShow, setDateToShow}}>
           <Navbar/>
           <Routes>
             <Route path="/" element={<Home/>} />

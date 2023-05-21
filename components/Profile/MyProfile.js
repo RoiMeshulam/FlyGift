@@ -2,13 +2,27 @@ import React, { useContext } from 'react'
 import pic from './account.png'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faShekelSign } from '@fortawesome/free-solid-svg-icons';
-import { Grid, Typography, Box } from '@mui/material';
+import { Grid, Typography, Box, Button} from '@mui/material';
 import { UserContext } from '../../UserContext';
+import LoadingPoints from '../Payment/LoadingPoints';
+import { styled } from '@mui/system'
+import { grey } from '@mui/material/colors';
 
-
+const GreyButton = styled(Button)({
+    background: grey[500]
+});
 
 const MyProfile = () => {
     const {userInfo, currCash} = useContext(UserContext);
+    const [open, setOpen] = React.useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleLoadingButton = () => {
+        setOpen(true);
+    };
     
     console.log(userInfo)
   return (
@@ -34,7 +48,11 @@ const MyProfile = () => {
             </Grid>
         </Box>
         <Box display={'flex'} justifyContent={'center'} marginBottom={'1%'}>
-            <button id='btn'>טעינת נקודות</button>
+            <GreyButton size={'Large'} variant="contained" onClick={handleLoadingButton}>טעינת נקודות</GreyButton>
+            <LoadingPoints
+                open={open}
+                onClose={handleClose}
+            />
         </Box>
     </Box>
   )

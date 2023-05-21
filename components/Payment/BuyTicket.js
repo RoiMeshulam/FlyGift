@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Grid, Box, Typography, Dialog, Button, Container} from '@mui/material';
 import { styled } from '@mui/system'
 import { grey } from '@mui/material/colors';
-import { getDatabase, ref, set, update } from "firebase/database";
+import { getDatabase, ref, update } from "firebase/database";
 import CreditCard from './CreditCard';
 import { UserContext } from '../../UserContext';
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext} from 'react';
 import { Grid, Box, Typography , Button} from "@mui/material";
 import FlightDetails from "./FlightDetails";
 import BuyTicket from "../Payment/BuyTicket";
@@ -9,14 +9,13 @@ const FlightTicket = ({flight}) => {
     const [isConor, setIsConor] = React.useState(false);
     const [amount,setAmount] = React.useState(0);
     const {price, route} = flight;
-    const {oneDirection,isConnected,userInfo} = useContext(UserContext);
+    const {oneDirection,isConnected,currCash} = useContext(UserContext);
 
     const handleSelectClick = (event) => {
         if(!isConnected){
             alert("יש לבצע התחברות על מנת לרכוש כרטיס טיסה")
         }
         else{
-            const {currCash} = userInfo;
             console.log(currCash)
             if(currCash >= price){
                 setAmount(currCash-price)

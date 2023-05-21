@@ -1,5 +1,5 @@
 import { Grid , Box , Typography } from '@mui/material';
-import { React, useContext, useState } from 'react'
+import { React, useContext } from 'react'
 import { styled } from '@mui/system'
 import { grey } from '@mui/material/colors';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -14,10 +14,10 @@ const CalanderIcon = styled(CalendarMonthIcon)({
 });
 
 const DatePickerFlight = () => {
-  const {dateFrom,dateTo,setDateFrom,setDateTo} = useContext(UserContext);
+  const {setDateFrom,setDateTo,dateFromShow,dateToShow,setDateFromShow,setDateToShow} = useContext(UserContext);
+  
 
-  const [dateFromShow, setDateFromShow] = useState(dateFrom);
-  const [dateToShow, setDateToShow] = useState(dateTo);
+ 
 
   const handleDateChangeFrom = (event) => {
     console.log(event.target.value)

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Grid, Box, Typography} from '@mui/material';
+import { Grid, Box} from '@mui/material';
 import { styled } from '@mui/system'
 import logo from '../../img/FlyGiftLogo.png'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -57,7 +57,7 @@ const Navbar = () => {
     <Grid container height={250}>
         <Grid item md={6}>
             <Link to="/">
-                <img src={logo}/>
+                <img src={logo} alt='logo'/>
             </Link>       
         </Grid>
         <Grid item md={6}>
