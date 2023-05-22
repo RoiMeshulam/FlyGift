@@ -89,9 +89,7 @@ const Navbar = () => {
                 <Grid container height={170}>
                     <Grid item sm={3}></Grid>
                     <Grid item sm={2}>
-                        <StyledLink to="/companyLogin">
-                            <NavItem icon={BusinessIcon} text={'כניסה לחברות'}/>
-                        </StyledLink>
+                       {/*  */}
                     </Grid>
                     <Grid item sm={2}>
                         <StyledLink to="/GroupPresent">

@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home';
 import MyAccount from './pages/MyAccount';
-import Company from './pages/Company';
 import GroupPresent from './pages/GroupPresent';
 import Search from './pages/Search';
 import { UserContext } from './UserContext';
@@ -35,7 +34,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="/MyAccount" element={<MyAccount/>} />
-            <Route path="/companyLogin" element={<Company />} />
             <Route path="/GroupPresent" element={<GroupPresent/>} />
             <Route path="/Search" element={<Search/>} />
           </Routes>
