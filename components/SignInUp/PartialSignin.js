@@ -1,30 +1,27 @@
 import React from 'react'
-import { useState } from 'react'
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { Dialog } from '@mui/material';
+import { ThemeProvider } from '@emotion/react';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { getAuth, updatePassword } from "firebase/auth";
+import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme } from '@mui/material/styles';
+import { updatePassword } from "firebase/auth";
 import { auth } from '../../utils/firebase';
-import { getDatabase, ref, child, get, update } from "firebase/database";
+import { getDatabase, ref, update } from "firebase/database";
 
 const theme = createTheme();
 
 const PartialSignin = (props) => {
-    const { onClose } = props;
-    const [signSuccess, setSignSuccess] = useState(true);
-    const handleSignType = (event) => {
-        setSignSuccess(!signSuccess);
+    const { onClose, open } = props;
+    const handleClose = () => {
+        onClose();
     };
-
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        //const auth = getAuth();
         const user = auth.currentUser;
 
         if (user !== null) {
@@ -35,8 +32,7 @@ const PartialSignin = (props) => {
                     update(ref(db, 'Users/' + user.uid), {
                         existingUser: 1,
                     });
-
-                    onClose();
+                    handleClose();
                 })
                 .catch((error) => {
                     console.error(error);
@@ -47,7 +43,7 @@ const PartialSignin = (props) => {
 
     return (
         <>
-            {signSuccess ?
+            <Dialog onClose={handleClose} open={open}>
                 <ThemeProvider theme={theme}>
                     <Container component="main" maxWidth="xs">
                         <CssBaseline />
@@ -60,7 +56,7 @@ const PartialSignin = (props) => {
                             }}
                         >
                             <Typography component="h1" variant="h5">
-                                First Sign in - Change Password
+                                התחברות ראשונית - אנא שנה סיסמא
                             </Typography>
                             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                                 <TextField
@@ -79,17 +75,14 @@ const PartialSignin = (props) => {
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
                                 >
-                                    Change Password
+                                    שנה סיסמא
                                 </Button>
                             </Box>
                         </Box>
                     </Container>
                 </ThemeProvider>
-                :
-                <div>Yessirrr</div>
-            }
-
+            </Dialog>
         </>
     );
 }
-export default PartialSignin
+export default PartialSignin

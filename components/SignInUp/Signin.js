@@ -22,13 +22,9 @@ import { UserContext } from '../../UserContext';
 const theme = createTheme();
 
 const Signin = (props) => {
-    const { onClose, open } = props;
-    const [newUserResetPassword, setNewUserResetPassword] = useState(true);
-    const {setUserInfo, setUserUid, setIsConnected, setCurrCash} = useContext(UserContext);
+    const { onClose, open, handleSetOpenSignInNewPassOpen } = props;
+    const { setUserInfo, setUserUid, setIsConnected, setCurrCash } = useContext(UserContext);
 
-    const handleNewUserResetPassword = (event) => {
-        setNewUserResetPassword(!newUserResetPassword);
-    };
     const handleClose = () => {
         onClose();
     };
@@ -47,13 +43,14 @@ const Signin = (props) => {
                     const dbRef = ref(getDatabase());
                     get(child(dbRef, `Users/${user.uid}`)).then((snapshot) => {
                         if (snapshot.exists()) {
-                            const {currCash} = snapshot.val();
+                            const { currCash } = snapshot.val();
                             setUserInfo(snapshot.val());
                             setUserUid(user.uid);
                             setCurrCash(currCash);
+                            console.log(currCash);
                             setIsConnected(true);
                             if (snapshot.val().existingUser === 0) {
-                                handleNewUserResetPassword();
+                                handleSetOpenSignInNewPassOpen();
                             } else {
                                 handleClose();
                             }
@@ -76,68 +73,59 @@ const Signin = (props) => {
 
 
     return (
-            <> {newUserResetPassword ?
-                <Dialog onClose={handleClose} open={open}>
-                    <ThemeProvider theme={theme}>
-                        <Container component="main" maxWidth="xs">
-                            <CssBaseline />
-                            <Box
-                                sx={{
-                                    marginTop: 8,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                }}
+        <Dialog onClose={handleClose} open={open}>
+            <ThemeProvider theme={theme}>
+                <Container component="main" maxWidth="xs">
+                    <CssBaseline />
+                    <Box
+                        sx={{
+                            marginTop: 8,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                            <LockOutlinedIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Sign in
+                        </Typography>
+                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                            />
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
                             >
-                                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                                    <LockOutlinedIcon />
-                                </Avatar>
-                                <Typography component="h1" variant="h5">
-                                    Sign in
-                                </Typography>
-                                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="email"
-                                        label="Email Address"
-                                        name="email"
-                                        autoComplete="email"
-                                        autoFocus
-                                    />
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        name="password"
-                                        label="Password"
-                                        type="password"
-                                        id="password"
-                                        autoComplete="current-password"
-                                    />
-                                    <Button
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        sx={{ mt: 3, mb: 2 }}
-                                    >
-                                        Sign In
-                                    </Button>
-                                </Box>
-                            </Box>
-                        </Container>
-                    </ThemeProvider>
-                </Dialog>
-                :
-                <Dialog onClose={handleClose} open={open} >
-                    <PartialSignin
-                        onClose={handleClose}
-                    />
-                </Dialog>
-            }
-            </>
-            
+                                Sign In
+                            </Button>
+                        </Box>
+                    </Box>
+                </Container>
+            </ThemeProvider>
+        </Dialog>
+
     );
 }
-export default Signin
+export default Signin
