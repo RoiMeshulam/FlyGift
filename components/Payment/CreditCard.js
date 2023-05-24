@@ -69,18 +69,21 @@ export default class CreditCard extends React.Component {
       const fixNum = "" + this.state.number;
       const splitNum = fixNum.split(' ')
       const cominedNum = "" + splitNum[0] + splitNum[1] + splitNum[2] + splitNum[3]
+      console.log(cominedNum);
       const dbRef = ref(getDatabase());
       get(child(dbRef, `CreditCards/${cominedNum}`)).then((snapshot) => {
         if (snapshot.exists()) {
+          console.log( this.state.cvc)
+          console.log( snapshot.val().cvc)
+          console.log( this.state.expiry)
+          console.log( snapshot.val().expiry)
           if (snapshot.val().cvc == this.state.cvc && snapshot.val().expiry == this.state.expiry) {
-            console.log("correct cred")
+            alert("Credit Card Exists")
+            this.props.onClick();
           }
           else {
-            console.log("wrong cred")
+            alert("Credit Card doesnt exist")
           }
-          alert("Credit Card Exists")
-          this.props.onClick();
-
         } else {
           alert("Credit Card doesnt exist")
         }

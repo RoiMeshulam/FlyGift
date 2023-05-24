@@ -9,6 +9,9 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, ref, set, child, update, get } from "firebase/database";
 import { auth } from "../../utils/firebase";
 import { UserContext } from '../../UserContext';
+import NeedMoreMoney from '../Payment/NeedMoreMoney';
+
+
 
 
 
@@ -19,12 +22,17 @@ const GreyButton = styled(Button)({
 const Group = () => {
   const [members, setMembers] = React.useState([{ email: '', name: '', amount: '', index:0 }]);
   const [membersFromCsv, setMembersFromCsv] = React.useState([]);
-  const [amount, setAmount] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
+  const [amount,setAmount] = useState(0);
+
   const fileReader = new FileReader();
   let index =-1;
   const {currCash , setCurrCash, userUid} = useContext(UserContext);
-  
 
+  const handleClose= () =>{
+    setOpen(false);
+  };
+  
   const updateItemValue = (index, newValue) => {
     setMembers(prevItems => {
       const updatedItems = [...prevItems];
@@ -144,14 +152,17 @@ const Group = () => {
   
     if (!isCashEnough) {
       // popUp creditCard
-      console.log("creditCard");
+      setOpen(true);
+      setAmount(Math.abs(difference));
+    }else{
+        list.map((member) => {
+            checkUserByEmail(member.email, member.name, member.amount);
+        });
+        
+          updateCash(difference);
     }
   
-    list.map((member) => {
-      checkUserByEmail(member.email, member.name, member.amount);
-    });
-  
-    updateCash(difference);
+    
   };
 
   const handleAddButton = () => {
@@ -160,6 +171,7 @@ const Group = () => {
     updatedMembers.push(newMember);
     setMembers(updatedMembers);
   };
+
   const generatePassword = (length) => {
     const charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-={}[]<>?`~";
     let result = "";
@@ -168,18 +180,36 @@ const Group = () => {
         result += charset[randomIndex];
     }
     return result;
-};
+  };
 
-const updateCash = (newAmount) => {
-    const db = getDatabase();
-    let plaster;
-    plaster = "Users/" + userUid;
-    update(ref(db, plaster), {
-      currCash: newAmount,
+   const updateCash = (newAmount) => {
+        const db = getDatabase();
+        let plaster;
+        plaster = "Users/" + userUid;
+        update(ref(db, plaster), {
+        currCash: newAmount,
+        });
+        setCurrCash(newAmount);
+
+  };
+
+  const handleCreditCharging = () => {
+    console.log("handleCreditCardCharging");
+    let list;
+  
+    if (membersFromCsv.length === 0) {
+      list = members;
+    } else {
+      list = membersFromCsv;
+    }
+    list.map((member) => {
+        checkUserByEmail(member.email, member.name, member.amount);
     });
-    setCurrCash(newAmount);
+    
+    updateCash(0);
+    setOpen(false);
 
-};
+  }
  
 
   return (
@@ -220,6 +250,12 @@ const updateCash = (newAmount) => {
       
       <Box display={'flex'} justifyContent={'left'} padding={'1%'}>
         <GreyButton size={'Large'} variant="contained" onClick={handleChargeButton}>טען</GreyButton>
+        <NeedMoreMoney
+            open={open}
+            onClose={handleClose}
+            handlePayment={handleCreditCharging}
+            amount = {amount}
+        />
       </Box>
     </Box>
   );

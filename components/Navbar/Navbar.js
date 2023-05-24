@@ -6,7 +6,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import GroupsIcon from '@mui/icons-material/Groups';
-import BusinessIcon from '@mui/icons-material/Business';
 import NavItem from './NavItem';
 import { Link } from "react-router-dom";
 import Signin from '../SignInUp/Signin';
@@ -110,6 +109,22 @@ const Navbar = () => {
                             {/*  */}
                         </Grid>
                         <Grid item sm={2}>
+                            {!isConnected ? 
+                            <>
+                            <NavItem icon={PostAddIcon} text={'הרשמה'} onClick={handleClickSignUpOpen} />
+                            <Signup
+                                open={openSignUp}
+                                onClose={handleSignUpClose}
+                            />
+                            </> 
+                            :
+                            <></>
+                            }
+                            
+                        </Grid>
+
+
+                        <Grid item sm={2}>
                             <StyledLink to="/GroupPresent">
                                 <NavItem icon={GroupsIcon} text={'מתנה קבוצתית'} />
                             </StyledLink>
@@ -128,13 +143,7 @@ const Navbar = () => {
                             }
 
                         </Grid>
-                        <Grid item sm={2}>
-                            <NavItem icon={PostAddIcon} text={'הרשמה'} onClick={handleClickSignUpOpen} />
-                            <Signup
-                                open={openSignUp}
-                                onClose={handleSignUpClose}
-                            />
-                        </Grid>
+                       
                         <Grid item sm={1}></Grid>
                     </Grid>
                 </Box>

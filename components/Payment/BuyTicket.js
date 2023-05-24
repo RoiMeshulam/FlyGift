@@ -11,6 +11,7 @@ const BuyTicket = ({open, onClose , isConor, amount}) => {
     const {userUid , setCurrCash} = useContext(UserContext);
 
     const handleClose = () => {
+        setCreditCharge(false)
         onClose();
     };
 

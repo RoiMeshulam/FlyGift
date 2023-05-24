@@ -20,31 +20,107 @@ const GreyButton = styled(Button)({
 });
 
 const SearchFlight = () => {
-    const {oneDirection, setOneDirection , setSearchResults, departure, arrival, dateFrom, dateTo, passengers, setPassengers} = useContext(UserContext);
+    const {oneDirection, setOneDirection , setSearchResults, departure, arrival, dateFrom, dateTo, passengers, setPassengers, searchResults} = useContext(UserContext);
+   
+   
     const handleNumTicketsChange = (event) => {
         setPassengers(parseInt(event.target.value));
     };
 
-    const handleOneDirectionChange = (event) => {
-        setOneDirection(!oneDirection);
-       
+    const handleOneDirectionChange = async (event) => {
+        setOneDirection(!oneDirection); 
     };
 
+    const daysInYear = (year,month) =>{
+        const maxDaysByMonth = {
+            1: 31, // January
+            2: (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0 ? 29 : 28, // February (considering leap years)
+            3: 31, // March
+            4: 30, // April
+            5: 31, // May
+            6: 30, // June
+            7: 31, // July
+            8: 31, // August
+            9: 30, // September
+            10: 31, // October
+            11: 30, // November
+            12: 31, // December
+          };
+
+          return maxDaysByMonth[month];
+
+    }
+
+    const areValidDates = (from, to) => {
+        const [dayFrom, monthFrom, yearFrom] = from.split('/').map(Number);
+        const [dayTo, monthTo, yearTo] = to.split('/').map(Number);
+       
+        // check if the day and the month are lligel 
+        if (dayFrom > daysInYear(yearFrom,monthFrom) || dayTo > daysInYear(yearTo,monthTo)) {
+            return false;
+        }
+
+        // Create a Date object for the given date
+        const givenDateFrom = new Date(yearFrom, monthFrom - 1, dayFrom); // month - 1 because month in JavaScript Date is zero-based
+
+        // Create a Date object for the given date
+        const givenDateTo = new Date(yearTo, monthTo - 1, dayTo); // month - 1 because month in JavaScript Date is zero-based
+
+        // Get the current date
+        const currentDate = new Date();
+
+        // Compare the given date with the current date
+        if (givenDateFrom < currentDate || givenDateTo < currentDate) {
+            // Given date is in the past
+            return false;
+        }
+
+        if(yearFrom <= yearTo){
+            if(yearFrom == yearTo){
+                if(monthFrom <= monthTo){
+                    if(monthFrom== monthTo){
+                        if(dayFrom < dayTo){
+                            return true;
+                        }
+                        else{
+                            return false;
+                        }
+                    }else{
+                        return true;
+                    }
+                }else{
+                    return false;
+                }
+            }else{
+                return true;
+            }
+
+        }else{
+            return false;
+        }
+
+
+
+    }
   
 
     const handleSearchButton = async (event) => {
-        console.log(dateFrom);
-        console.log(dateTo);
-        if(oneDirection){
-            const flight = await searchFlightsOneDirection(departure, arrival, dateFrom, dateTo, passengers);
-            const {data} = flight
-            setSearchResults(data)   
+        let isValid = areValidDates(dateFrom,dateTo);
+        if(isValid){
+            if(oneDirection){
+                const flight = await searchFlightsOneDirection(departure, arrival, dateFrom, dateTo, passengers);
+                const {data} = flight
+                setSearchResults(data)   
+            }
+            else{
+                const flight = await searchFlightsTwoDirection(departure, arrival, dateFrom, dateTo, passengers);
+                const {data} = flight
+                setSearchResults(data)
+            }
+        }else{
+            alert("אנא ודא/י שמילאת את כל השדות בצורה נכונה");
         }
-        else{
-            const flight = await searchFlightsTwoDirection(departure, arrival, dateFrom, dateTo, passengers);
-            const {data} = flight
-            setSearchResults(data)
-        }
+        
     }
 
   return (
