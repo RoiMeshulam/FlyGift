@@ -10,6 +10,8 @@ import { getDatabase, ref, set, child, update, get } from "firebase/database";
 import { auth } from "../../utils/firebase";
 import { UserContext } from '../../UserContext';
 import NeedMoreMoney from '../Payment/NeedMoreMoney';
+import { useNavigate } from 'react-router-dom';
+import SendMail from '../Mail/SendMail';
 
 
 
@@ -24,6 +26,7 @@ const Group = () => {
   const [membersFromCsv, setMembersFromCsv] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const [amount,setAmount] = useState(0);
+  const navigate = useNavigate();
 
   const fileReader = new FileReader();
   let index =-1;
@@ -112,6 +115,7 @@ const Group = () => {
                 update(ref(db, 'Users/' + userId), {
                     currCash : cash,
                 });
+                // SendMail.sendEmail(fromName, toName, toMail, value);
                 // sendEmail(user.firstName, user.email, user.currCash, user.password);
                 b=true;
                 console.log("user Found and updated");
@@ -159,7 +163,9 @@ const Group = () => {
             checkUserByEmail(member.email, member.name, member.amount);
         });
         
-          updateCash(difference);
+        updateCash(difference);
+        alert("הטעינה התבצעה בהצלחה")
+        navigate('/');
     }
   
     
@@ -208,6 +214,8 @@ const Group = () => {
     
     updateCash(0);
     setOpen(false);
+    alert("הטעינה התבצעה בהצלחה")
+    navigate('/');
 
   }
  

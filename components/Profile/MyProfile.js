@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import pic from './account.png'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faShekelSign } from '@fortawesome/free-solid-svg-icons';
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
 import { Grid, Typography, Box, Button} from '@mui/material';
 import { UserContext } from '../../UserContext';
 import LoadingPoints from '../Payment/LoadingPoints';
@@ -33,7 +34,7 @@ const MyProfile = () => {
                 <Grid item>
                     <Box display='flex' flexDirection='column' alignItems={'center'} marginTop={'55%'} marginRight={'12px'}>
                         <Box display='flex' flexDirection='row'>
-                            <FontAwesomeIcon icon={faShekelSign} style={{color: "#0f0f0f" , marginRight:'3px'}} />
+                            <FontAwesomeIcon icon={faDollarSign} style={{color: "#0f0f0f" , marginRight:'3px'}} />
                             {currCash}                          
                         </Box>
                             להזמנת טיסה

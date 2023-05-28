@@ -5,10 +5,12 @@ import { grey } from '@mui/material/colors';
 import { getDatabase, ref, update } from "firebase/database";
 import CreditCard from './CreditCard';
 import { UserContext } from '../../UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const BuyTicket = ({open, onClose , isConor, amount}) => {
     const [creditCharge, setCreditCharge] = React.useState(false)
     const {userUid , setCurrCash} = useContext(UserContext);
+    const navigate = useNavigate();
 
     const handleClose = () => {
         setCreditCharge(false)
@@ -25,6 +27,7 @@ const BuyTicket = ({open, onClose , isConor, amount}) => {
         setCurrCash(amount);
         alert("הרכישה התבצעה בהצלחה, טיסה נעימה!")
         handleClose();
+        navigate('/');
         
     };
 
@@ -38,6 +41,7 @@ const BuyTicket = ({open, onClose , isConor, amount}) => {
         setCurrCash(0);
         alert("הרכישה התבצעה בהצלחה, טיסה נעימה!")
         handleClose();
+        navigate('/');
         
     };
 

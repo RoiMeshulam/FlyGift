@@ -8,6 +8,7 @@ import Groups2Icon from '@mui/icons-material/Groups2';
 import { searchFlightsOneDirection, searchFlightsTwoDirection } from './TequilaAPI'
 import { Link } from "react-router-dom";
 import { UserContext } from '../../UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const GridRtl = styled(Grid)({
     direction:'rtl'
@@ -21,7 +22,7 @@ const GreyButton = styled(Button)({
 
 const SearchFlight = () => {
     const {oneDirection, setOneDirection , setSearchResults, departure, arrival, dateFrom, dateTo, passengers, setPassengers, searchResults} = useContext(UserContext);
-   
+    const navigate = useNavigate();
    
     const handleNumTicketsChange = (event) => {
         setPassengers(parseInt(event.target.value));
@@ -29,6 +30,8 @@ const SearchFlight = () => {
 
     const handleOneDirectionChange = async (event) => {
         setOneDirection(!oneDirection); 
+        navigate('/');
+        
     };
 
     const daysInYear = (year,month) =>{
