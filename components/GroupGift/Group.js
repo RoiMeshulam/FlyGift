@@ -11,7 +11,7 @@ import { auth } from "../../utils/firebase";
 import { UserContext } from '../../UserContext';
 import NeedMoreMoney from '../Payment/NeedMoreMoney';
 import { useNavigate } from 'react-router-dom';
-import SendMail from '../Mail/SendMail';
+import { sendEmailExistingUser, sendEmailNewUser} from '../Mail/SendMail';
 
 
 
@@ -115,17 +115,18 @@ const Group = () => {
                 update(ref(db, 'Users/' + userId), {
                     currCash : cash,
                 });
-                // SendMail.sendEmail(fromName, toName, toMail, value);
+                sendEmailExistingUser("fromName", "toName", "ariktatievski@gmail.com", "");
+                
                 // sendEmail(user.firstName, user.email, user.currCash, user.password);
                 b=true;
                 console.log("user Found and updated");
-                return;
             }
 
         });
       } if(!b) {  
         let currPass = createNewUser(username, useremail, useramount);
         console.log("created new user");
+        sendEmailNewUser("fromName", "toName", "ariktatievski@gmail.com", "", currPass);
         //send email
       }
     });
@@ -165,7 +166,7 @@ const Group = () => {
         
         updateCash(difference);
         alert("הטעינה התבצעה בהצלחה")
-        navigate('/');
+        // navigate('/');
     }
   
     
@@ -215,7 +216,7 @@ const Group = () => {
     updateCash(0);
     setOpen(false);
     alert("הטעינה התבצעה בהצלחה")
-    navigate('/');
+    // navigate('/');
 
   }
  
